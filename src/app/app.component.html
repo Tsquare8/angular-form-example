@@ -1,23 +1,30 @@
 <div class="container">
-  <!--any fields with # on it is bound to form sampleForm and below states that on submit take data values in field-->
-  <form (ngSubmit)="onSubmit(sampleForm)" class="form-horizontal" #sampleForm="ngForm">
+  <!--(ngSubmit)is different between binding to template vs. binding to model.  Binding to is below.-->
+  <form (ngSubmit)="onSubmit()" class="form-horizontal" #sampleForm="ngForm">
     <div class="form-group">
       <label for="first_name" class="col-sm-2 control-label">First Name</label>
       <div class="col-sm-10">
-        <!--name attribute must match the fieldname attribute - #first_name : name=first_name-->
-       <!--first ngModel is need to bind data to form-->
-        <input type="text" ngModel #first_name="ngModel" name="first_name" class="form-control" id="first_name" placeholder="e.g. Eric">
+       <!-- [(ngModel)]="model.first_name" i used to bind data to model -->
+        <input required minlength="2" type="text" [(ngModel)]="model.first_name" name="first_name" class="form-control" id="first_name" placeholder="e.g. Eric">
+        <!--add to display error messages using span below-->
+        <span *ngIf="formErrors.first_name" class="text-danger">
+          {{ formErrors.first_name }}
+        </span>
       </div>
     </div>
      <div class="form-group">
       <label for="last_name" class="col-sm-2 control-label">Last Name</label>
       <div class="col-sm-10">
-        <input type="text" ngModel #last_name="ngModel" name="last_name" class="form-control" id="last_name" placeholder="e.g. Schwartz">
+        <input minlength="2" type="text" [(ngModel)]="model.last_name" name="last_name" class="form-control" id="last_name" placeholder="e.g. Schwartz">
+        <!--add display error messages using span below-->
+        <span *ngIf="formErrors.last_name" class="text-danger">
+          {{ formErrors.last_name }}
+        </span>
       </div>
     </div>
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">Submit Form</button>
+        <button [disabled]="!sampleForm.form.valid" type="submit" class="btn btn-primary">Submit Form</button>
       </div>
     </div>
   </form>
